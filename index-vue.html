@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Task Manager</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js" defer></script>
+    <script src="task-vue.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>My Task Manager</h1>
+    </header>
+    <main id="app">
+        <section id="add_task">
+            <h2>新增任務</h2>
+        
+            <input type="text" id="task-input" v-model="newTask" @keyup.enter="addTask" placeholder="任務名稱">
+            <button type="button" @click="addTask" id="add-task-button">新增</button>
+
+        </section>
+        <section id="task_list">
+            <h2>任務列表</h2>
+            <select id="task-filter" v-model="filter">
+                <option value="all">全部</option>
+                <option value="active">未完成</option>
+                <option value="completed">已完成</option>
+            </select>
+
+            <div v-for="task in filteredTasks" :key="task.id" class="task-item">
+                <input type="checkbox" v-model="task.completed">
+                <label :style="{ textDecoration: task.completed ? 'line-through' : 'none' }">
+                    {{ task.name }}
+                </label>
+                <button type="button" @click="deleteTask(task.id)">刪除</button>
+            </div>
+        </section>
+        <section id="task-count">
+            <h2>任務統計</h2>
+            <p>總任務數: <span id="total-tasks">{{ tasks.length }}</span></p>
+            <p>未完成任務數: <span id="active-tasks">{{ activeCount }}</span></p>
+            <p>已完成任務數: <span id="completed-tasks">{{ completedCount }}</span></p>
+        </section>
+
+    </main>
+
+</body>
+</html>
